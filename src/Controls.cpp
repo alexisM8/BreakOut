@@ -129,6 +129,26 @@ void Control::Init(){
     m_oneInstructions.setCharacterSize(40);
     m_oneInstructions.setPosition({m_one.getPosition().x + m_one.getGlobalBounds().width + 40, m_one.getPosition().y});
 
+    m_twoInstructions.setString("press to increse music volume");
+    m_twoInstructions.setCharacterSize(40);
+    m_twoInstructions.setPosition({m_two.getPosition().x + m_two.getGlobalBounds().width + 40, m_two.getPosition().y});
+
+    m_nineInstructions.setString("press to decrease sfx volume");
+    m_nineInstructions.setCharacterSize(40);
+    m_nineInstructions.setPosition({m_nine.getPosition().x + m_nine.getGlobalBounds().width + 40, m_nine.getPosition().y});
+
+    m_zeroInstructions.setString("press to increase sfx volume");
+    m_zeroInstructions.setCharacterSize(40);
+    m_zeroInstructions.setPosition({m_zero.getPosition().x + m_zero.getGlobalBounds().width + 40, m_zero.getPosition().y});
+
+    m_pInstructions.setString("press to pause game");
+    m_pInstructions.setCharacterSize(40);
+    m_pInstructions.setPosition({m_keyp.getPosition().x + m_keyp.getGlobalBounds().width + 40, m_keyp.getPosition().y});
+
+    m_spaceInstructions.setString("press to launch ball of destruction");
+    m_spaceInstructions.setCharacterSize(40);
+    m_spaceInstructions.setPosition({m_space.getPosition().x + m_space.getGlobalBounds().width + 40, m_space.getPosition().y});
+
 }
 void Control::ProcessInput(){
     sf::Event ev;
@@ -273,9 +293,14 @@ void Control::Draw(){
     m_context->m_window->draw(m_space);
     m_context->m_window->draw(m_leftArrow);
     m_context->m_window->draw(m_rightArrow);
+    m_context->m_window->draw(m_spaceInstructions);
     m_context->m_window->draw(m_upArrowInstuctions);
     m_context->m_window->draw(m_leftArrowInstructions);
     m_context->m_window->draw(m_oneInstructions);
+    m_context->m_window->draw(m_twoInstructions);
+    m_context->m_window->draw(m_nineInstructions);
+    m_context->m_window->draw(m_zeroInstructions);
+    m_context->m_window->draw(m_pInstructions);
     m_context->m_window->draw(m_menuButton);
     m_context->m_window->draw(m_exitButton);
     m_context->m_window->display();
