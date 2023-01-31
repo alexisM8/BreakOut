@@ -8,7 +8,20 @@
 #include <cmath>
 
 GameLogic::GameLogic(std::shared_ptr<Engine::Context> &context)
-                : m_context(context), 
+                : m_context(context),
+                  m_musicVolume(100.0f),
+                  m_soundVolume(100.0f),
+                  m_score(0),  
+                  m_isPasued(false),
+                  m_lives(3),
+                  m_globalVelocity(1.5f),
+                  m_velocityIncrement(m_globalVelocity/20),
+                  m_playerVelocity(m_globalVelocity), 
+                  m_ballVelocity(m_globalVelocity*0.5f){ srand(time(nullptr)) ;}
+GameLogic::GameLogic(std::shared_ptr<Engine::Context> &context, float soundVolume, float musicVolume)
+                : m_context(context),
+                  m_musicVolume(musicVolume),
+                  m_soundVolume(soundVolume),
                   m_score(0),  
                   m_isPasued(false),
                   m_lives(3),
@@ -66,14 +79,9 @@ void GameLogic::Init(){
     m_scoreTxt.setPosition({0.0f, 0.0f});
     m_scoreTxt.setString("Score : " + std::to_string(m_score) + "\t\tLives: " + std::to_string(m_lives));
     //sound
-    m_context->m_assest->AddSound(SOUNDC, "../assets/sound/collide.wav");
-    m_collSound.setBuffer(m_context->m_assest->getSound(SOUNDC));
-
-    m_context->m_assest->AddMusic(GAMEMUSIC, "../assets/sound/pixle_perfect.wav");
-    m_music.openFromFile(m_context->m_assest->getMusic(GAMEMUSIC));
-    m_music.setVolume(50.0f);
-    m_music.setLoop(true);
-    m_music.play();
+    m_context->m_sound->setBuffer(m_context->m_assest->getSound(SOUNDC));
+    m_context->m_music->openFromFile(m_context->m_assest->getMusic(GAMEMUSIC));
+    m_context->m_music->play();
 
 }
 
@@ -108,7 +116,31 @@ void GameLogic::ProcessInput(){
                         m_ball.yvel = -1 * m_ballVelocity;
                     }
                     break;
-                case sf::Keyboard::Escape:
+                case sf::Keyboard::Num1:{
+                    if(m_musicVolume <= 0) m_musicVolume = 0;
+                    else m_musicVolume -= 10.0f;
+                    m_context->m_music->setVolume(m_musicVolume);
+                    break;
+                }
+                case sf::Keyboard::Num2:{
+                    if(m_musicVolume >= 100) m_musicVolume = 100.0f;
+                    else m_musicVolume  += 10.0f;
+                    m_context->m_music->setVolume(m_musicVolume);
+                    break;
+                }
+                case sf::Keyboard::Num9:{
+                    if(m_soundVolume <= 0) m_soundVolume = 0;
+                    else m_soundVolume -= 10.0f;
+                    m_context->m_sound->setVolume(m_soundVolume);
+                    break;
+                }
+                case sf::Keyboard::Num0:{
+                    if(m_soundVolume >= 100) m_soundVolume = 100;
+                    else m_soundVolume += 10.0f;
+                    m_context->m_sound->setVolume(m_soundVolume);
+                    break;
+                }
+                case sf::Keyboard::P:
                     m_context->m_states->add(std::make_unique<PauseGame>(m_context), false);
                     break;
                 default: break;
@@ -148,13 +180,13 @@ void GameLogic::Update(sf::Time deltatime){
                     m_ballVelocity += m_velocityIncrement;
                     m_ball.yvel = m_ballVelocity ;
                     m_score += std::ceil(100 * m_ballVelocity);
-                    m_collSound.play();
+                    m_context->m_sound->play();
                 }
             }
 
             if(m_ball.ball.getGlobalBounds().intersects(m_player.getGlobalBounds())){
                 m_ball.yvel =  -1.0f * m_ballVelocity;
-                m_collSound.play();
+                m_context->m_sound->play();
             }
 
             if(m_ball.ball.getPosition().x + 
@@ -189,7 +221,6 @@ void GameLogic::Update(sf::Time deltatime){
             }
         }
         m_scoreTxt.setString("Score: " + std::to_string(m_score) + "\t\tLives: " + std::to_string(m_lives));
-        std::cout << "in game logic state stack size: " << m_context->m_states->getSize() << "\n";
     }
 }
 void GameLogic::Draw(){
@@ -206,7 +237,6 @@ void GameLogic::Draw(){
 }
 
 void GameLogic::Pause(){
-    std::cout << "in game paused called!\n";
     m_isPasued = true;
 }
 void GameLogic::Start(){

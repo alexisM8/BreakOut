@@ -27,8 +27,10 @@ class MainMenu : public Engine::State{
         sf::Sprite m_background;
 
         //sound
-        sf::Sound m_scroll;
-        sf::Music m_music;
+        float m_soundVolume;
+        float m_musicVolume;
+        // sf::Sound m_scroll;
+        // sf::Music m_music;
     public:
     MainMenu(std::shared_ptr<Engine::Context> &m_context);
         ~MainMenu();

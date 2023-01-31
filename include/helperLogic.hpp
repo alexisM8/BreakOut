@@ -36,8 +36,10 @@ enum AssetID{
     BALL,
     GAMEBACKGROUND,
     MENUBACKGROUND,
+    CONTROLBACKGROUND,
     SOUNDC,
     GAMEMUSIC,
+    CONTROLMUSIC,
     MENUMUSIC,
     SCROLL,
     LEFTARROW,
@@ -50,8 +52,6 @@ enum AssetID{
     DOWNARROW, 
     UPARROW,
     P
-
-
 };
 
 colorStruct HSItoRGB(int i, int numElem);

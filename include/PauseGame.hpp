@@ -20,8 +20,13 @@ class PauseGame : public Engine::State{
 
         bool m_isRestartButtonSelected;
         bool m_isRestartButtonPressed;
+    
+        float m_musicVolume;
+        float m_soundVolume;
+        sf::RectangleShape m_opacity;
     public:
         PauseGame(std::shared_ptr<Engine::Context> &m_context);
+        PauseGame(std::shared_ptr<Engine::Context> &m_context, float soundVolume, float musicVolume);
         ~PauseGame();
     
         void Init() override;

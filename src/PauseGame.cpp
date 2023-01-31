@@ -11,6 +11,13 @@ PauseGame::PauseGame(std::shared_ptr<Engine::Context> &context):
     m_isExitButtonPressed(false), m_isRestartButtonSelected(false),
     m_isRestartButtonPressed(false){/*empty*/}
 
+PauseGame::PauseGame(std::shared_ptr<Engine::Context> &context, float soundVolume, float musicVolume): 
+    m_context(context), m_musicVolume(musicVolume),
+    m_soundVolume(soundVolume), m_isResumeButtonSelected(true),
+    m_isResumeButtonPressed(false), m_isExitButtonSelected(false), 
+    m_isExitButtonPressed(false), m_isRestartButtonSelected(false),
+    m_isRestartButtonPressed(false){/*empty*/}
+
 PauseGame::~PauseGame(){/*empty*/}
 
 void PauseGame::Init(){
@@ -37,7 +44,7 @@ void PauseGame::Init(){
                                 m_resumeButton.getGlobalBounds().height / 2.0 - 
                                 30.0));
     //restart button
-    m_restartButton.setString("Restart Game");
+    m_restartButton.setString("Main Menu");
     m_restartButton.setCharacterSize(50);
     m_restartButton.setPosition(sf::Vector2f(m_resumeButton.getPosition().x,
                                 m_context->m_window->getSize().y / 2.0 - 
@@ -50,6 +57,11 @@ void PauseGame::Init(){
                                 m_context->m_window->getSize().y / 2.0 - 
                                 m_exitButton.getGlobalBounds().height / 2.0 + 
                                 90.0));
+
+    //opacity
+
+    m_opacity.setSize({float(m_context->m_window->getSize().x), float(m_context->m_window->getSize().y)});
+    m_opacity.setFillColor(sf::Color(172,172,172, 5));
 }
 void PauseGame::ProcessInput(){
     sf::Event ev;
@@ -100,6 +112,31 @@ void PauseGame::ProcessInput(){
                     }
                     break;
                 }
+                case sf::Keyboard::Num1:{
+                    if(m_musicVolume <= 0) m_musicVolume = 0;
+                    else m_musicVolume -= 10.0f;
+                    m_context->m_music->setVolume(m_musicVolume);
+                    break;
+                }
+                case sf::Keyboard::Num2:{
+                    if(m_musicVolume >= 100) m_musicVolume = 100.0f;
+                    else m_musicVolume  += 10.0f;
+                    m_context->m_music->setVolume(m_musicVolume);
+                    break;
+                }
+                case sf::Keyboard::Num9:{
+                    if(m_soundVolume <= 0) m_soundVolume = 0;
+                    else m_soundVolume -= 10.0f;
+                    m_context->m_sound->setVolume(m_soundVolume);
+                    break;
+                }
+                case sf::Keyboard::Num0:{
+                    if(m_soundVolume >= 100) m_soundVolume = 100;
+                    else m_soundVolume += 10.0f;
+                    m_context->m_sound->setVolume(m_soundVolume);
+                    break;
+                }
+
                 default:
                     break;
             }
@@ -128,12 +165,9 @@ void PauseGame::Update(sf::Time deltatime){
     }else if(m_isExitButtonPressed){
        m_context->m_window->close();
     }
-    std::cout << "in pause game state stack size: " << m_context->m_states->getSize() << "\n";
 }
 void PauseGame::Draw(){
-    sf::RectangleShape op({static_cast<float>(m_context->m_window->getSize().x), static_cast<float>(m_context->m_window->getSize().y)});
-    op.setFillColor(sf::Color(173, 173, 173, 5));
-    m_context->m_window->draw(op);
+    m_context->m_window->draw(m_opacity);
     m_context->m_window->draw(m_pausedTitle);
     m_context->m_window->draw(m_resumeButton);
     m_context->m_window->draw(m_restartButton);

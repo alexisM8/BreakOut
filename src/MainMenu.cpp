@@ -7,6 +7,8 @@
 
 MainMenu::MainMenu(std::shared_ptr<Engine::Context> &context): 
                             m_context(context),
+                            m_musicVolume(100.0f),
+                            m_soundVolume(100.0f),
                             m_isPaused(false), 
                             m_isPlayButtonSelected(true),
                             m_isPlayButtonPressed(false),
@@ -47,13 +49,16 @@ void MainMenu::Init(){
 
     //sound
     m_context->m_assest->AddSound(SCROLL,"../assets/sound/scroll.wav" );
-    m_scroll.setBuffer(m_context->m_assest->getSound(SCROLL));
+    m_context->m_assest->AddSound(SOUNDC, "../assets/sound/collide.wav");
+    m_context->m_sound->setBuffer(m_context->m_assest->getSound(SCROLL));
 
     m_context->m_assest->AddMusic(MENUMUSIC,"../assets/sound/menu.wav" );
-    m_music.openFromFile(m_context->m_assest->getMusic(MENUMUSIC));
-    m_music.setVolume(50.0f);
-    m_music.setLoop(true);
-    m_music.play();
+    m_context->m_assest->AddMusic(GAMEMUSIC, "../assets/sound/pixle_perfect.wav");
+    m_context->m_assest->AddMusic(CONTROLMUSIC, "../assets/sound/control.wav");
+    m_context->m_music->openFromFile(m_context->m_assest->getMusic(MENUMUSIC));
+    m_context->m_music->setVolume(50.0f);
+    m_context->m_music->setLoop(true);
+    m_context->m_music->play();
 }
 void MainMenu::ProcessInput(){
     sf::Event ev;
@@ -67,12 +72,12 @@ void MainMenu::ProcessInput(){
                         m_isPlayButtonSelected = false;
                         m_isControlButtonSelected = true;
                         m_isExitButtonSelected = false;
-                        m_scroll.play();
+                        m_context->m_sound->play();
                     }else if(m_isControlButtonSelected){
                         m_isPlayButtonSelected = true;
                         m_isControlButtonSelected = false;
                         m_isExitButtonSelected = false;
-                        m_scroll.play();
+                        m_context->m_sound->play();
                     }
                     break;
                 }
@@ -81,12 +86,12 @@ void MainMenu::ProcessInput(){
                         m_isPlayButtonSelected = false;
                         m_isControlButtonSelected = true;
                         m_isExitButtonSelected = false;
-                        m_scroll.play();
+                        m_context->m_sound->play();
                     }else if(m_isControlButtonSelected){
                         m_isPlayButtonSelected = false;
                         m_isControlButtonSelected = false;
                         m_isExitButtonSelected = true;
-                        m_scroll.play();
+                        m_context->m_sound->play();
                     }
                     break;
                 }
@@ -98,7 +103,7 @@ void MainMenu::ProcessInput(){
                     m_isExitButtonPressed = false;
                     m_isPlayButtonPressed = false;
                     m_isControlButtonPressed = false;
-                    m_scroll.play();
+                    m_context->m_sound->play();
                     
                     if(m_isPlayButtonSelected){
                         m_isPlayButtonPressed = true;
@@ -107,6 +112,31 @@ void MainMenu::ProcessInput(){
                     }else if(m_isExitButtonSelected){
                         m_isExitButtonPressed = true;
                     }
+                    break;
+                }
+
+                case sf::Keyboard::Num1:{
+                    if(m_musicVolume <= 0) m_musicVolume = 0;
+                    else m_musicVolume -= 10.0f;
+                    m_context->m_music->setVolume(m_musicVolume);
+                    break;
+                }
+                case sf::Keyboard::Num2:{
+                    if(m_musicVolume >= 100) m_musicVolume = 100.0f;
+                    else m_musicVolume  += 10.0f;
+                    m_context->m_music->setVolume(m_musicVolume);
+                    break;
+                }
+                case sf::Keyboard::Num9:{
+                    if(m_soundVolume <= 0) m_soundVolume = 0;
+                    else m_soundVolume -= 10.0f;
+                    m_context->m_sound->setVolume(m_soundVolume);
+                    break;
+                }
+                case sf::Keyboard::Num0:{
+                    if(m_soundVolume >= 100) m_soundVolume = 100;
+                    else m_soundVolume += 10.0f;
+                    m_context->m_sound->setVolume(m_soundVolume);
                     break;
                 }
                 default:
@@ -133,14 +163,13 @@ void MainMenu::Update(sf::Time deltatime){
 
         if(m_isPlayButtonPressed){
             m_isPlayButtonPressed = false;
-            m_context->m_states->add(std::make_unique<GameLogic>(m_context), true);
+            m_context->m_states->add(std::make_unique<GameLogic>(m_context, m_soundVolume, m_musicVolume), true);
         }else if(m_isExitButtonPressed){
            m_context->m_window->close();
         }else if(m_isControlButtonPressed){
             m_isControlButtonPressed = false;
-            m_context->m_states->add(std::make_unique<Control>(m_context), false);
+            m_context->m_states->add(std::make_unique<Control>(m_context, m_soundVolume, m_musicVolume), false);
         }
-        // std::cout << "In main menu state stack size: " << m_context->m_states->getSize() << "\n";
     }
 
 }

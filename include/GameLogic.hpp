@@ -31,16 +31,19 @@ class GameLogic : public Engine::State {
         std::array<Brick, row*col> m_bricks;
         
         //ui
-        sf::Sound m_collSound;
-        sf::Music m_music;
-        sf::Text m_scoreTxt;
         int m_score;
+        sf::Text m_scoreTxt;
         bool m_isPasued;
+
+        //sounds
+        float m_soundVolume;
+        float m_musicVolume;
 
         //background
         sf::Sprite m_background;
     public:
     GameLogic(std::shared_ptr<Engine::Context> &context);
+    GameLogic(std::shared_ptr<Engine::Context> &context, float soundVolume, float musicVolume);
     ~GameLogic();
     void Init() override;
     void ProcessInput() override;

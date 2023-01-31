@@ -54,10 +54,13 @@ class Control : public Engine::State{
         sf::Text m_pInstructions;
 
         //sound
-        sf::Sound m_scroll;
-        sf::Music m_music;
+        float m_soundVolume;
+        float m_musicVolume;
+        // sf::Sound m_scroll;
+        // sf::Music m_music;
     public:
         Control(std::shared_ptr<Engine::Context> &m_context);
+        Control(std::shared_ptr<Engine::Context> &m_context, float soundVolume, float musicVolume);
         ~Control();
     
         void Init() override;

@@ -8,6 +8,17 @@
 
 Control::Control(std::shared_ptr<Engine::Context> &context): 
                             m_context(context),
+                            m_musicVolume(100.0f),
+                            m_soundVolume(100.0f),
+                            m_isMenuButtonSelected(true),
+                            m_isMenuButtonPressed(false),
+                            m_isExitButtonSelected(false),
+                            m_isExitButtonPressed(false){/*empty*/}
+
+Control::Control(std::shared_ptr<Engine::Context> &context, float soundVolume, float musicVolume): 
+                            m_context(context),
+                            m_musicVolume(musicVolume),
+                            m_soundVolume(soundVolume),
                             m_isMenuButtonSelected(true),
                             m_isMenuButtonPressed(false),
                             m_isExitButtonSelected(false),
@@ -16,18 +27,18 @@ Control::~Control(){/*empty*/}
 
 void Control::Init(){
     // m_context->m_assest->AddFont(MAIN_FONT, "../assets/fonts/Monaco.ttf");
-    m_gameTitle.setFont(m_context->m_assest->getFont(MAIN_FONT));
-    m_menuButton.setFont(m_context->m_assest->getFont(MAIN_FONT));
-    m_exitButton.setFont(m_context->m_assest->getFont(MAIN_FONT));
+    m_gameTitle.setFont(m_context->m_assest->getFont(AssetID::MAIN_FONT));
+    m_menuButton.setFont(m_context->m_assest->getFont(AssetID::MAIN_FONT));
+    m_exitButton.setFont(m_context->m_assest->getFont(AssetID::MAIN_FONT));
     //instructions
-    m_upArrowInstuctions.setFont(m_context->m_assest->getFont(MAIN_FONT));
-    m_leftArrowInstructions.setFont(m_context->m_assest->getFont(MAIN_FONT));
-    m_oneInstructions.setFont(m_context->m_assest->getFont(MAIN_FONT));
-    m_twoInstructions.setFont(m_context->m_assest->getFont(MAIN_FONT));
-    m_nineInstructions.setFont(m_context->m_assest->getFont(MAIN_FONT));
-    m_zeroInstructions.setFont(m_context->m_assest->getFont(MAIN_FONT));
-    m_spaceInstructions.setFont(m_context->m_assest->getFont(MAIN_FONT));
-    m_pInstructions.setFont(m_context->m_assest->getFont(MAIN_FONT));
+    m_upArrowInstuctions.setFont(m_context->m_assest->getFont(AssetID::MAIN_FONT));
+    m_leftArrowInstructions.setFont(m_context->m_assest->getFont(AssetID::MAIN_FONT));
+    m_oneInstructions.setFont(m_context->m_assest->getFont(AssetID::MAIN_FONT));
+    m_twoInstructions.setFont(m_context->m_assest->getFont(AssetID::MAIN_FONT));
+    m_nineInstructions.setFont(m_context->m_assest->getFont(AssetID::MAIN_FONT));
+    m_zeroInstructions.setFont(m_context->m_assest->getFont(AssetID::MAIN_FONT));
+    m_spaceInstructions.setFont(m_context->m_assest->getFont(AssetID::MAIN_FONT));
+    m_pInstructions.setFont(m_context->m_assest->getFont(AssetID::MAIN_FONT));
 
     //name
     m_gameTitle.setString("Controls");
@@ -42,21 +53,21 @@ void Control::Init(){
     m_menuButton.setCharacterSize(50);
     m_menuButton.setPosition(sf::Vector2f((m_context->m_window->getSize().x / 2.0) - m_exitButton.getGlobalBounds().width / 2.0, m_context->m_window->getSize().y - (m_exitButton.getGlobalBounds().height * 2 + m_exitButton.getGlobalBounds().height * 2)));
     //Background
-    m_context->m_assest->AddTexture(MENUBACKGROUND, "../assets/textures/Clouds 8.png");
-    m_background.setTexture(m_context->m_assest->getTexture(MENUBACKGROUND));
+    m_context->m_assest->AddTexture(AssetID::CONTROLBACKGROUND, "../assets/textures/Clouds 8.png");
+    m_background.setTexture(m_context->m_assest->getTexture(AssetID::CONTROLBACKGROUND));
     m_background.setScale(3.35, 3.35);
     m_background.setPosition(0,0);
     //sprites 
-    m_context->m_assest->AddTexture(SPACE, "../assets/textures/key_sprites/SPACEALTERNATIVE.png");
-    m_context->m_assest->AddTexture(P, "../assets/textures/key_sprites/P.png");
-    m_context->m_assest->AddTexture(UPARROW, "../assets/textures/key_sprites/ARROWUP.png");
-    m_context->m_assest->AddTexture(DOWNARROW, "../assets/textures/key_sprites/ARROWDOWN.png");
-    m_context->m_assest->AddTexture(LEFTARROW, "../assets/textures/key_sprites/ARROWLEFT.png");
-    m_context->m_assest->AddTexture(RIGHTARROW, "../assets/textures/key_sprites/ARROWRIGHT.png");
-    m_context->m_assest->AddTexture(ONE, "../assets/textures/key_sprites/1.png");
-    m_context->m_assest->AddTexture(TWO, "../assets/textures/key_sprites/2.png");
-    m_context->m_assest->AddTexture(NINE, "../assets/textures/key_sprites/9.png");
-    m_context->m_assest->AddTexture(ZERO, "../assets/textures/key_sprites/0.png");
+    m_context->m_assest->AddTexture(AssetID::SPACE, "../assets/textures/key_sprites/SPACEALTERNATIVE.png");
+    m_context->m_assest->AddTexture(AssetID::P, "../assets/textures/key_sprites/P.png");
+    m_context->m_assest->AddTexture(AssetID::UPARROW, "../assets/textures/key_sprites/ARROWUP.png");
+    m_context->m_assest->AddTexture(AssetID::DOWNARROW, "../assets/textures/key_sprites/ARROWDOWN.png");
+    m_context->m_assest->AddTexture(AssetID::LEFTARROW, "../assets/textures/key_sprites/ARROWLEFT.png");
+    m_context->m_assest->AddTexture(AssetID::RIGHTARROW, "../assets/textures/key_sprites/ARROWRIGHT.png");
+    m_context->m_assest->AddTexture(AssetID::ONE, "../assets/textures/key_sprites/1.png");
+    m_context->m_assest->AddTexture(AssetID::TWO, "../assets/textures/key_sprites/2.png");
+    m_context->m_assest->AddTexture(AssetID::NINE, "../assets/textures/key_sprites/9.png");
+    m_context->m_assest->AddTexture(AssetID::ZERO, "../assets/textures/key_sprites/0.png");
     //positions
     m_leftArrowPosition = sf::IntRect(0,0,16,16);
     m_rightArrowPosition = sf::IntRect(0,0,16,16);
@@ -111,7 +122,7 @@ void Control::Init(){
     m_space.setScale(4.0,4.0);
 
     //sound
-    m_scroll.setBuffer(m_context->m_assest->getSound(SCROLL));
+    // m_scroll.setBuffer(m_context->m_assest->getSound(SCROLL));
 
     //clock
     m_context->m_clock->restart();
@@ -149,6 +160,7 @@ void Control::Init(){
     m_spaceInstructions.setCharacterSize(40);
     m_spaceInstructions.setPosition({m_space.getPosition().x + m_space.getGlobalBounds().width + 40, m_space.getPosition().y});
 
+    // m_context->m_music->openFromFile(m_context->m_assest->getMusic(AssetID::CONTROLMUSIC));
 }
 void Control::ProcessInput(){
     sf::Event ev;
@@ -161,7 +173,7 @@ void Control::ProcessInput(){
                     if(m_isExitButtonSelected){
                         m_isMenuButtonSelected = true;
                         m_isExitButtonSelected = false;
-                        m_scroll.play();
+                        m_context->m_sound->play();
                     }
                     break;
                 }
@@ -169,7 +181,7 @@ void Control::ProcessInput(){
                     if(m_isMenuButtonSelected){
                         m_isMenuButtonSelected = false;
                         m_isExitButtonSelected = true;
-                        m_scroll.play();
+                        m_context->m_sound->play();
                     }
                     break;
                 }
@@ -180,7 +192,7 @@ void Control::ProcessInput(){
                 case sf::Keyboard::Return:{
                     m_isExitButtonPressed = false;
                     m_isMenuButtonPressed = false;
-                    m_scroll.play();
+                    m_context->m_sound->play();
                     
                     if(m_isMenuButtonSelected){
                         m_isMenuButtonPressed = true;
@@ -188,10 +200,32 @@ void Control::ProcessInput(){
                         m_isExitButtonPressed = true;
                     }
                     break;
-                    case sf::Keyboard::Num1:{
-                       m_music.setVolume(10.0f);
-                    }
                 }
+                case sf::Keyboard::Num1:{
+                    if(m_musicVolume <= 0) m_musicVolume = 0;
+                    else m_musicVolume -= 10.0f;
+                    m_context->m_music->setVolume(m_musicVolume);
+                    break;
+                }
+                case sf::Keyboard::Num2:{
+                    if(m_musicVolume >= 100) m_musicVolume = 100.0f;
+                    else m_musicVolume  += 10.0f;
+                    m_context->m_music->setVolume(m_musicVolume);
+                    break;
+                }
+                case sf::Keyboard::Num9:{
+                    if(m_soundVolume <= 0) m_soundVolume = 0;
+                    else m_soundVolume -= 10.0f;
+                    m_context->m_sound->setVolume(m_soundVolume);
+                    break;
+                }
+                case sf::Keyboard::Num0:{
+                    if(m_soundVolume >= 100) m_soundVolume = 100;
+                    else m_soundVolume += 10.0f;
+                    m_context->m_sound->setVolume(m_soundVolume);
+                    break;
+                }
+
                 default:
                     break;
             }
@@ -277,7 +311,6 @@ void Control::Update(sf::Time deltatime){
     }else if(m_isExitButtonPressed){
        m_context->m_window->close();
     }
-    std::cout << "in controls state stack size: " << m_context->m_states->getSize() << "\n";
 }
 void Control::Draw(){
     m_context->m_window->clear();
