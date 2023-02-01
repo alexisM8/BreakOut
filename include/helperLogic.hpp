@@ -3,8 +3,8 @@
 
 constexpr int screenWidth = 1920;
 constexpr int screenHeight = 1080;
-constexpr int row = 4;//7
-constexpr int col = 5;//9
+constexpr int row = 7;//7
+constexpr int col = 9;//9
 constexpr int bhspace = 10;
 constexpr int bvspace = 5;
 constexpr float bwidth = (screenWidth - (col + 1) * bhspace) / float(col);
