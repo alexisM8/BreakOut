@@ -35,6 +35,7 @@ void PauseGame::Init(){
                                 2.0, m_context->m_window->getSize().y / 2.0 - 
                                 m_pausedTitle.getGlobalBounds().height / 2.0 - 
                                 150.0f));
+    m_pausedTitle.setFillColor(sf::Color::Black);
     //play button
     m_resumeButton.setString("Resume");
     m_resumeButton.setCharacterSize(50);
@@ -43,6 +44,8 @@ void PauseGame::Init(){
                                 2.0, m_context->m_window->getSize().y / 2.0 - 
                                 m_resumeButton.getGlobalBounds().height / 2.0 - 
                                 30.0));
+    m_resumeButton.setFillColor(sf::Color::Black);
+    
     //restart button
     m_restartButton.setString("Main Menu");
     m_restartButton.setCharacterSize(50);
@@ -50,6 +53,8 @@ void PauseGame::Init(){
                                 m_context->m_window->getSize().y / 2.0 - 
                                 m_resumeButton.getGlobalBounds().height / 2.0 +
                                 30.0f));
+    m_resumeButton.setFillColor(sf::Color::Black);
+
     //exit button
     m_exitButton.setString("Exit");
     m_exitButton.setCharacterSize(50);
@@ -57,6 +62,8 @@ void PauseGame::Init(){
                                 m_context->m_window->getSize().y / 2.0 - 
                                 m_exitButton.getGlobalBounds().height / 2.0 + 
                                 90.0));
+    m_exitButton.setFillColor(sf::Color::Black);
+
 
     //opacity
 
@@ -145,17 +152,17 @@ void PauseGame::ProcessInput(){
 }
 void PauseGame::Update(sf::Time deltatime){
     if(m_isResumeButtonSelected){
-        m_resumeButton.setFillColor(sf::Color::Yellow);
-        m_restartButton.setFillColor(sf::Color::White);
-        m_exitButton.setFillColor(sf::Color::White);
+        m_resumeButton.setFillColor(sf::Color(62, 118, 185));
+        m_restartButton.setFillColor(sf::Color::Black);
+        m_exitButton.setFillColor(sf::Color::Black);
     }else if(m_isRestartButtonSelected){
-        m_restartButton.setFillColor(sf::Color::Yellow);
-        m_exitButton.setFillColor(sf::Color::White);
-        m_resumeButton.setFillColor(sf::Color::White);
+        m_restartButton.setFillColor(sf::Color(62, 118, 185));
+        m_exitButton.setFillColor(sf::Color::Black);
+        m_resumeButton.setFillColor(sf::Color::Black);
     }else{
-        m_exitButton.setFillColor(sf::Color::Yellow);
-        m_restartButton.setFillColor(sf::Color::White);
-        m_resumeButton.setFillColor(sf::Color::White);
+        m_exitButton.setFillColor(sf::Color(62, 118, 185));
+        m_restartButton.setFillColor(sf::Color::Black);
+        m_resumeButton.setFillColor(sf::Color::Black);
     }
     if(m_isResumeButtonPressed){
         m_context->m_states->popCurrent();

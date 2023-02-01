@@ -13,7 +13,7 @@ GameLogic::GameLogic(std::shared_ptr<Engine::Context> &context)
                   m_soundVolume(100.0f),
                   m_score(0),  
                   m_isPasued(false),
-                  m_lives(3),
+                  m_lives(0),
                   m_globalVelocity(1.5f),
                   m_velocityIncrement(m_globalVelocity/20),
                   m_playerVelocity(m_globalVelocity), 
@@ -24,7 +24,7 @@ GameLogic::GameLogic(std::shared_ptr<Engine::Context> &context, float soundVolum
                   m_soundVolume(soundVolume),
                   m_score(0),  
                   m_isPasued(false),
-                  m_lives(3),
+                  m_lives(0),
                   m_globalVelocity(1.5f),
                   m_velocityIncrement(m_globalVelocity/20),
                   m_playerVelocity(m_globalVelocity), 
@@ -154,7 +154,8 @@ void GameLogic::ProcessInput(){
 void GameLogic::Update(sf::Time deltatime){
     if(!m_isPasued){
         if(m_lives < 0 || nobricks(m_bricks)){
-            m_context->m_states->add(std::make_unique<WinOrLose>(m_context, true, m_score, 1), true);
+            m_score = (m_lives > 1) ? m_score * m_lives : m_score;
+            m_context->m_states->add(std::make_unique<WinOrLose>(m_context, m_score, m_lives), true);
         }
         //controlling player bounds
         if(m_player.getPosition().x < 0){

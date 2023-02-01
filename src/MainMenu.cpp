@@ -28,20 +28,27 @@ void MainMenu::Init(){
     m_gameTitle.setString("Break Out!");
     m_gameTitle.setCharacterSize(80);
     m_gameTitle.setPosition(sf::Vector2f((m_context->m_window->getSize().x / 2.0) - m_gameTitle.getGlobalBounds().width / 2.0, m_context->m_window->getSize().y / 2.0 - m_gameTitle.getGlobalBounds().height / 2.0 - 150.0));
+    m_gameTitle.setFillColor(sf::Color::Black);
     //play button
     m_playButton.setString("Play");
     m_playButton.setCharacterSize(50);
     m_playButton.setPosition(sf::Vector2f((m_context->m_window->getSize().x / 2.0) - m_playButton.getGlobalBounds().width / 2.0, m_context->m_window->getSize().y / 2.0 - m_playButton.getGlobalBounds().height / 2.0 - 30.0));
+    m_playButton.setFillColor(sf::Color::Black);
+
     //exit button
     m_exitButton.setString("Exit");
     m_exitButton.setCharacterSize(50);
     m_exitButton. setPosition(sf::Vector2f((m_context->m_window->getSize().x / 2.0) - m_exitButton.getGlobalBounds().width / 2.0, m_context->m_window->getSize().y / 2.0 - m_exitButton.getGlobalBounds().height / 2.0 + 90.0));
+    m_exitButton.setFillColor(sf::Color::Black);
+
     //controls button
     m_controlButton.setString("Controls");
     m_controlButton.setCharacterSize(50);
     m_controlButton.setPosition(sf::Vector2f((m_context->m_window->getSize().x / 2.0) - m_exitButton.getGlobalBounds().width / 2.0, m_context->m_window->getSize().y / 2.0 - m_exitButton.getGlobalBounds().height / 2.0 + 30.0));
+    m_controlButton.setFillColor(sf::Color::Black);
+
     //Background
-    m_context->m_assest->AddTexture(MENUBACKGROUND, "../assets/textures/Clouds 3.png");
+    m_context->m_assest->AddTexture(MENUBACKGROUND, "../assets/textures/Clouds 2.png");
     m_background.setTexture(m_context->m_assest->getTexture(MENUBACKGROUND));
     m_background.setScale(3.35, 3.35);
     m_background.setPosition(0,0);
@@ -148,17 +155,17 @@ void MainMenu::ProcessInput(){
 void MainMenu::Update(sf::Time deltatime){
     if(!m_isPaused){
         if(m_isPlayButtonSelected){
-            m_playButton.setFillColor(sf::Color::Yellow);
-            m_exitButton.setFillColor(sf::Color::White);
-            m_controlButton.setFillColor(sf::Color::White);
+            m_playButton.setFillColor(sf::Color(62, 118, 185));
+            m_exitButton.setFillColor(sf::Color::Black);
+            m_controlButton.setFillColor(sf::Color::Black);
         }else if(m_isExitButtonSelected){
-            m_exitButton.setFillColor(sf::Color::Yellow);
-            m_playButton.setFillColor(sf::Color::White);
-            m_controlButton.setFillColor(sf::Color::White);
+            m_exitButton.setFillColor(sf::Color(62, 118, 185));
+            m_playButton.setFillColor(sf::Color::Black);
+            m_controlButton.setFillColor(sf::Color::Black);
         }else if(m_isControlButtonSelected){
-            m_playButton.setFillColor(sf::Color::White);
-            m_controlButton.setFillColor(sf::Color::Yellow);
-            m_exitButton.setFillColor(sf::Color::White);
+            m_playButton.setFillColor(sf::Color::Black);
+            m_controlButton.setFillColor(sf::Color(62, 118, 185));
+            m_exitButton.setFillColor(sf::Color::Black);
         }
 
         if(m_isPlayButtonPressed){

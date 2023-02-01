@@ -1,46 +1,61 @@
 #include "../include/helperLogic.hpp"
 #include "../include/WinOrLose.hpp"
-// #include "leveltwo.hpp"
 #include "../include/GameLogic.hpp"
+#include "../include/SaveScore.hpp"
 #include <iostream>
 
-WinOrLose::WinOrLose(std::shared_ptr<Engine::Context> &context, bool stateWoL, int score, int lvlbeat): m_context(context), m_statewol(stateWoL), m_score(score), m_lvlBeat(lvlbeat), m_isNextlvlButtonSelected(true),
-m_isNextlvlButtonPressed(false), m_isRestartGameButtonSelected(false), m_isRestartGameButtonPressed(false),m_isExitButtonSelected(false), m_isExitButtonPressed(false){
-    
-}
+WinOrLose::WinOrLose(std::shared_ptr<Engine::Context> &context, 
+                     int score, int lvlbeat):
+                            m_context(context), 
+                            m_score(score),
+                            m_lives(lvlbeat),
+                            m_isSaveScoreButtonSelected(true),
+                            m_isSaveScoreButtonPressed(false), 
+                            m_isRestartGameButtonSelected(false),
+                            m_isRestartGameButtonPressed(false),    
+                            m_isExitButtonSelected(false), 
+                            m_isExitButtonPressed(false){/*empty*/}
 
 WinOrLose::~WinOrLose(){/*empty*/}
 
 void WinOrLose::Init(){
+    m_context-> m_assest->AddTexture(AssetID::WOLBACKGROUND, "../assets/textures/Clouds 7.png");
+    m_wolBackground.setTexture(m_context->m_assest->getTexture(AssetID::WOLBACKGROUND));
+    m_wolBackground.setScale(3.35, 3.35);
 
     m_statusTitle.setFont(m_context->m_assest->getFont(MAIN_FONT));
-    m_nextlvlButton.setFont(m_context->m_assest->getFont(MAIN_FONT));
+    m_saveScoreButton.setFont(m_context->m_assest->getFont(MAIN_FONT));
     m_restartGameButton.setFont(m_context->m_assest->getFont(MAIN_FONT));
     m_exitButton.setFont(m_context->m_assest->getFont(MAIN_FONT));
     m_scoreTxt.setFont(m_context->m_assest->getFont(MAIN_FONT));
     //name
-    if(m_statewol){
-        m_statusTitle.setString("LVL " + std::to_string(m_lvlBeat) + " complete");
-        m_statusTitle.setCharacterSize(80);
-        m_statusTitle.setPosition(sf::Vector2f((m_context->m_window->getSize().x / 2.0) - m_statusTitle.getGlobalBounds().width / 2.0, m_context->m_window->getSize().y / 2.0 - m_statusTitle.getGlobalBounds().height / 2.0 - 150.0));
+    if(m_lives >= 0){
+        m_statusTitle.setString("congratulations You Win!");
     }else{
         m_statusTitle.setString("Game Failed");
-        m_statusTitle.setCharacterSize(80);
-        m_statusTitle.setPosition(sf::Vector2f((m_context->m_window->getSize().x / 2.0) - m_statusTitle.getGlobalBounds().width / 2.0, m_context->m_window->getSize().y / 2.0 - m_statusTitle.getGlobalBounds().height / 2.0 - 150.0));
     }
-    
-    //next level button
-    m_nextlvlButton.setString("Next Level");
-    m_nextlvlButton.setCharacterSize(50);
-    m_nextlvlButton.setPosition(sf::Vector2f((m_context->m_window->getSize().x / 2.0) - m_nextlvlButton.getGlobalBounds().width / 2.0, m_context->m_window->getSize().y / 2.0 - m_nextlvlButton.getGlobalBounds().height / 2.0 - 30.0f));
+     
+    m_statusTitle.setCharacterSize(80);
+    m_statusTitle.setPosition(sf::Vector2f((m_context->m_window->getSize().x / 2.0) - m_statusTitle.getGlobalBounds().width / 2.0, m_context->m_window->getSize().y / 2.0 - m_statusTitle.getGlobalBounds().height / 2.0 - 150.0));
+    m_statusTitle.setFillColor(sf::Color::Black);
+    //Save Score button
+    m_saveScoreButton.setString("Save Score");
+    m_saveScoreButton.setCharacterSize(50);
+    m_saveScoreButton.setPosition(sf::Vector2f((m_context->m_window->getSize().x / 2.0) - m_saveScoreButton.getGlobalBounds().width / 2.0, m_context->m_window->getSize().y / 2.0 - m_saveScoreButton.getGlobalBounds().height / 2.0 - 30.0f));
+    m_saveScoreButton.setFillColor(sf::Color::Black);
+
     //restart game button
     m_restartGameButton.setString("Restart Game");
     m_restartGameButton.setCharacterSize(50);
     m_restartGameButton.setPosition(sf::Vector2f((m_context->m_window->getSize().x / 2.0) - m_restartGameButton.getGlobalBounds().width / 2.0, m_context->m_window->getSize().y / 2.0 - m_restartGameButton.getGlobalBounds().height / 2.0 + 30.0f));
+    m_restartGameButton.setFillColor(sf::Color::Black);
+
     //exit button
     m_exitButton.setString("Exit");
     m_exitButton.setCharacterSize(50);
     m_exitButton.setPosition(sf::Vector2f((m_context->m_window->getSize().x / 2.0) - m_exitButton.getGlobalBounds().width / 2.0, m_context->m_window->getSize().y / 2.0 - m_exitButton.getGlobalBounds().height / 2.0 + 90.0f));
+    m_exitButton.setFillColor(sf::Color::Black);
+
 }
 void WinOrLose::ProcessInput(){
     sf::Event ev;
@@ -51,23 +66,23 @@ void WinOrLose::ProcessInput(){
             switch (ev.key.code) {
                 case sf::Keyboard::Up:{
                     if(m_isExitButtonSelected){
-                        m_isNextlvlButtonSelected = false;
+                        m_isSaveScoreButtonSelected = false;
                         m_isRestartGameButtonSelected = true;
                         m_isExitButtonSelected = false;
                     }else if(m_isRestartGameButtonSelected){
-                        m_isNextlvlButtonSelected = true;
+                        m_isSaveScoreButtonSelected = true;
                         m_isRestartGameButtonSelected = false;
                         m_isExitButtonSelected = false;
                     }
                     break;
                 }
                 case sf::Keyboard::Down:{
-                    if(m_isNextlvlButtonSelected){
-                        m_isNextlvlButtonSelected = false;
+                    if(m_isSaveScoreButtonSelected){
+                        m_isSaveScoreButtonSelected = false;
                         m_isRestartGameButtonSelected = true;
                         m_isExitButtonSelected = false;
                     }else if(m_isRestartGameButtonSelected){
-                        m_isNextlvlButtonSelected = false;
+                        m_isSaveScoreButtonSelected = false;
                         m_isRestartGameButtonSelected = false;
                         m_isExitButtonSelected = true;
                     }
@@ -79,11 +94,11 @@ void WinOrLose::ProcessInput(){
                 }
                 case sf::Keyboard::Return:{
                     m_isExitButtonPressed = false;
-                    m_isNextlvlButtonPressed = false;
+                    m_isSaveScoreButtonPressed = false;
                     m_isRestartGameButtonPressed = false;
                     
-                    if(m_isNextlvlButtonSelected){
-                        m_isNextlvlButtonPressed = true;
+                    if(m_isSaveScoreButtonSelected){
+                        m_isSaveScoreButtonPressed = true;
                     }else if(m_isRestartGameButtonSelected){
                         m_isRestartGameButtonPressed = true;
                     }else{
@@ -98,27 +113,22 @@ void WinOrLose::ProcessInput(){
     }
 }
 void WinOrLose::Update(sf::Time deltatime){
-    if(m_isNextlvlButtonSelected){
-        m_nextlvlButton.setFillColor(sf::Color::Yellow);
-        m_exitButton.setFillColor(sf::Color::White);
-        m_restartGameButton.setFillColor(sf::Color::White);
-    }else if(m_isRestartGameButtonSelected){  m_restartGameButton.setFillColor(sf::Color::Yellow);
-        m_exitButton.setFillColor(sf::Color::White);
-        m_nextlvlButton.setFillColor(sf::Color::White);
+    if(m_isSaveScoreButtonSelected){
+        m_saveScoreButton.setFillColor(sf::Color(62, 118, 185));
+        m_exitButton.setFillColor(sf::Color::Black);
+        m_restartGameButton.setFillColor(sf::Color::Black);
+    }else if(m_isRestartGameButtonSelected){  
+        m_restartGameButton.setFillColor(sf::Color(62, 118, 185));
+        m_exitButton.setFillColor(sf::Color::Black);
+        m_saveScoreButton.setFillColor(sf::Color::Black);
     }else{
-        m_restartGameButton.setFillColor(sf::Color::White);
-        m_exitButton.setFillColor(sf::Color::Yellow);
-        m_nextlvlButton.setFillColor(sf::Color::White);
+        m_restartGameButton.setFillColor(sf::Color::Black);
+        m_exitButton.setFillColor(sf::Color(62, 118, 185));
+        m_saveScoreButton.setFillColor(sf::Color::Black);
     }
     
-    if(m_isNextlvlButtonPressed){
-        switch(m_lvlBeat){
-            case 1:
-                //TODO: make lvl 2
-                // m_context->m_states->add(std::make_unique<LevelTwo>(m_context, m_score), true);
-                break;
-        }
-        
+    if(m_isSaveScoreButtonPressed){
+        m_context->m_states->add(std::make_unique<SaveScore>(m_context, m_score, m_soundVolume, m_musicVolume), true);
     }else if(m_isRestartGameButtonPressed){
         m_context->m_states->add(std::make_unique<GameLogic>(m_context), true);
     }else if(m_isExitButtonPressed){
@@ -127,8 +137,9 @@ void WinOrLose::Update(sf::Time deltatime){
 }
 void WinOrLose::Draw(){
     m_context->m_window->clear(sf::Color::Black);
+    m_context->m_window->draw(m_wolBackground);
     m_context->m_window->draw(m_statusTitle);
-    m_context->m_window->draw(m_nextlvlButton);
+    m_context->m_window->draw(m_saveScoreButton);
     m_context->m_window->draw(m_restartGameButton);
     m_context->m_window->draw(m_exitButton);
     m_context->m_window->display();
