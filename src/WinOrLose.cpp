@@ -5,10 +5,12 @@
 #include <iostream>
 
 WinOrLose::WinOrLose(std::shared_ptr<Engine::Context> &context, 
-                     int score, int lvlbeat):
+                     int score, int lvlbeat, float soundVolume, float musicVolume):
                             m_context(context), 
                             m_score(score),
                             m_lives(lvlbeat),
+                            m_soundVolume(soundVolume),
+                            m_musicVolume(musicVolume),
                             m_isSaveScoreButtonSelected(true),
                             m_isSaveScoreButtonPressed(false), 
                             m_isRestartGameButtonSelected(false),
@@ -56,6 +58,8 @@ void WinOrLose::Init(){
     m_exitButton.setPosition(sf::Vector2f((m_context->m_window->getSize().x / 2.0) - m_exitButton.getGlobalBounds().width / 2.0, m_context->m_window->getSize().y / 2.0 - m_exitButton.getGlobalBounds().height / 2.0 + 90.0f));
     m_exitButton.setFillColor(sf::Color::Black);
 
+    m_context->m_sound->setBuffer(m_context->m_assest->getSound(AssetID::SCROLL));
+
 }
 void WinOrLose::ProcessInput(){
     sf::Event ev;
@@ -74,6 +78,7 @@ void WinOrLose::ProcessInput(){
                         m_isRestartGameButtonSelected = false;
                         m_isExitButtonSelected = false;
                     }
+                    m_context->m_sound->play();
                     break;
                 }
                 case sf::Keyboard::Down:{
@@ -86,6 +91,7 @@ void WinOrLose::ProcessInput(){
                         m_isRestartGameButtonSelected = false;
                         m_isExitButtonSelected = true;
                     }
+                    m_context->m_sound->play();
                     break;
                 }
                 case sf::Keyboard::Escape:{
@@ -104,6 +110,31 @@ void WinOrLose::ProcessInput(){
                     }else{
                         m_isExitButtonPressed = true;
                     }
+                    m_context->m_sound->play();
+                    break;
+                }
+                case sf::Keyboard::Num1:{
+                    if(m_musicVolume <= 0) m_musicVolume = 0;
+                    else m_musicVolume -= 10.0f;
+                    m_context->m_music->setVolume(m_musicVolume);
+                    break;
+                }
+                case sf::Keyboard::Num2:{
+                    if(m_musicVolume >= 100) m_musicVolume = 100.0f;
+                    else m_musicVolume  += 10.0f;
+                    m_context->m_music->setVolume(m_musicVolume);
+                    break;
+                }
+                case sf::Keyboard::Num9:{
+                    if(m_soundVolume <= 0) m_soundVolume = 0;
+                    else m_soundVolume -= 10.0f;
+                    m_context->m_sound->setVolume(m_soundVolume);
+                    break;
+                }
+                case sf::Keyboard::Num0:{
+                    if(m_soundVolume >= 100) m_soundVolume = 100;
+                    else m_soundVolume += 10.0f;
+                    m_context->m_sound->setVolume(m_soundVolume);
                     break;
                 }
                 default:

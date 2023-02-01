@@ -16,6 +16,17 @@ MainMenu::MainMenu(std::shared_ptr<Engine::Context> &context):
                             m_isControlButtonPressed(false),
                             m_isExitButtonSelected(false),
                             m_isExitButtonPressed(false){/*empty*/}
+MainMenu::MainMenu(std::shared_ptr<Engine::Context> &context, float soundVolume, float musicVolume): 
+                            m_context(context),
+                            m_musicVolume(musicVolume),
+                            m_soundVolume(soundVolume),
+                            m_isPaused(false), 
+                            m_isPlayButtonSelected(true),
+                            m_isPlayButtonPressed(false),
+                            m_isControlButtonSelected(false),
+                            m_isControlButtonPressed(false),
+                            m_isExitButtonSelected(false),
+                            m_isExitButtonPressed(false){/*empty*/}
 MainMenu::~MainMenu(){/*empty*/}
 
 void MainMenu::Init(){
@@ -63,7 +74,7 @@ void MainMenu::Init(){
     m_context->m_assest->AddMusic(GAMEMUSIC, "../assets/sound/pixle_perfect.wav");
     m_context->m_assest->AddMusic(CONTROLMUSIC, "../assets/sound/control.wav");
     m_context->m_music->openFromFile(m_context->m_assest->getMusic(MENUMUSIC));
-    m_context->m_music->setVolume(50.0f);
+    m_context->m_music->setVolume(m_musicVolume);
     m_context->m_music->setLoop(true);
     m_context->m_music->play();
 }

@@ -81,8 +81,8 @@ void GameLogic::Init(){
     //sound
     m_context->m_sound->setBuffer(m_context->m_assest->getSound(SOUNDC));
     m_context->m_music->openFromFile(m_context->m_assest->getMusic(GAMEMUSIC));
+    m_context->m_music->setLoop(true);
     m_context->m_music->play();
-
 }
 
 void GameLogic::ProcessInput(){
@@ -155,7 +155,7 @@ void GameLogic::Update(sf::Time deltatime){
     if(!m_isPasued){
         if(m_lives < 0 || nobricks(m_bricks)){
             m_score = (m_lives > 1) ? m_score * m_lives : m_score;
-            m_context->m_states->add(std::make_unique<WinOrLose>(m_context, m_score, m_lives), true);
+            m_context->m_states->add(std::make_unique<WinOrLose>(m_context, m_score, m_lives, m_soundVolume, m_musicVolume), true);
         }
         //controlling player bounds
         if(m_player.getPosition().x < 0){

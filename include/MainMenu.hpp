@@ -32,7 +32,8 @@ class MainMenu : public Engine::State{
         // sf::Sound m_scroll;
         // sf::Music m_music;
     public:
-    MainMenu(std::shared_ptr<Engine::Context> &m_context);
+        MainMenu(std::shared_ptr<Engine::Context> &context);
+        MainMenu(std::shared_ptr<Engine::Context> &context, float soundVolume, float musicVolume);
         ~MainMenu();
     
         void Init() override;

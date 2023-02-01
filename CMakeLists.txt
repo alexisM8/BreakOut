@@ -56,6 +56,8 @@ add_library(mylib
     ${CMAKE_CURRENT_SOURCE_DIR}/src/WinOrLose.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/GameLogic.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Controls.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Textbox.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/SaveScore.cpp
 )
 
 

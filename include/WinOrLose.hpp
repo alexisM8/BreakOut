@@ -30,7 +30,7 @@ class WinOrLose : public Engine::State{
         float m_soundVolume;
         float m_musicVolume; 
     public:
-        WinOrLose(std::shared_ptr<Engine::Context> &m_context, int score, int lvlbeat);
+        WinOrLose(std::shared_ptr<Engine::Context> &m_context, int score, int lvlbeat, float soundVolume, float musicVolume);
         ~WinOrLose();
     
         void Init() override;

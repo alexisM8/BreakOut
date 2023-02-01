@@ -64,7 +64,8 @@ void PauseGame::Init(){
                                 90.0));
     m_exitButton.setFillColor(sf::Color::Black);
 
-
+    //sound
+    m_context->m_sound->setBuffer(m_context->m_assest->getSound(AssetID::SCROLL));
     //opacity
 
     m_opacity.setSize({float(m_context->m_window->getSize().x), float(m_context->m_window->getSize().y)});
@@ -87,6 +88,7 @@ void PauseGame::ProcessInput(){
                         m_isExitButtonSelected = false;
                         m_isRestartButtonSelected = false;
                     }
+                    m_context->m_sound->play();
                     break;
                 }
                 case sf::Keyboard::Down:{
@@ -99,6 +101,7 @@ void PauseGame::ProcessInput(){
                         m_isRestartButtonSelected = false;
                         m_isResumeButtonSelected = false;
                     }
+                    m_context->m_sound->play();
                     break;
                 }
                 case sf::Keyboard::Escape:{
@@ -117,6 +120,7 @@ void PauseGame::ProcessInput(){
                     }else{
                         m_isExitButtonPressed = true;
                     }
+                    m_context->m_sound->play(); 
                     break;
                 }
                 case sf::Keyboard::Num1:{
@@ -165,6 +169,8 @@ void PauseGame::Update(sf::Time deltatime){
         m_resumeButton.setFillColor(sf::Color::Black);
     }
     if(m_isResumeButtonPressed){
+        m_context->m_sound->play();
+        m_context->m_sound->setBuffer(m_context->m_assest->getSound(AssetID::SOUNDC));
         m_context->m_states->popCurrent();
     }else if(m_isRestartButtonPressed){
         m_context->m_states->popCurrent();

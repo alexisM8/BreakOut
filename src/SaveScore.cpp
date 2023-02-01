@@ -52,7 +52,9 @@ void SaveScore::Init(){
     m_background.setScale(3.35, 3.35);
     m_background.setPosition(0,0);
 
+    m_context->m_sound->setBuffer(m_context->m_assest->getSound(AssetID::SCROLL));
     m_context->m_music->openFromFile(m_context->m_assest->getMusic(AssetID::CONTROLMUSIC));
+    m_context->m_music->setLoop(true);
     m_context->m_music->play();
 
 }
@@ -62,6 +64,7 @@ void SaveScore::ProcessInput(){
     while (m_context->m_window->pollEvent(ev)) {
         if(ev.type == sf::Event::TextEntered && m_textbox.typable){
             m_textbox.addChar(ev.text.unicode);
+            m_context->m_sound->play();
             break;
         }else if(ev.type == sf::Event::Closed){
             m_context->m_window->close();
@@ -74,6 +77,7 @@ void SaveScore::ProcessInput(){
                         m_isExitButtonSelected = false;
                         m_context->m_sound->play();
                     }
+                    m_context->m_sound->play();
                     break;
                 }
                 case sf::Keyboard::Down:{
@@ -82,6 +86,7 @@ void SaveScore::ProcessInput(){
                         m_isExitButtonSelected = true;
                         m_context->m_sound->play();
                     }
+                    m_context->m_sound->play();
                     break;
                 }
                 case sf::Keyboard::Slash:{
@@ -100,6 +105,30 @@ void SaveScore::ProcessInput(){
                     }
                     break;
                 }
+                case sf::Keyboard::Num1:{
+                    if(m_musicVolume <= 0) m_musicVolume = 0;
+                    else m_musicVolume -= 10.0f;
+                    m_context->m_music->setVolume(m_musicVolume);
+                    break;
+                }
+                case sf::Keyboard::Num2:{
+                    if(m_musicVolume >= 100) m_musicVolume = 100.0f;
+                    else m_musicVolume  += 10.0f;
+                    m_context->m_music->setVolume(m_musicVolume);
+                    break;
+                }
+                case sf::Keyboard::Num9:{
+                    if(m_soundVolume <= 0) m_soundVolume = 0;
+                    else m_soundVolume -= 10.0f;
+                    m_context->m_sound->setVolume(m_soundVolume);
+                    break;
+                }
+                case sf::Keyboard::Num0:{
+                    if(m_soundVolume >= 100) m_soundVolume = 100;
+                    else m_soundVolume += 10.0f;
+                    m_context->m_sound->setVolume(m_soundVolume);
+                    break;
+                }
                 default: break;
             }
         }
@@ -116,7 +145,7 @@ void SaveScore::Update(sf::Time deltatime){
     }
 
     if(m_isMainMenuButtonPressed){
-        m_context->m_states->add(std::make_unique<MainMenu>(m_context), true);
+        m_context->m_states->add(std::make_unique<MainMenu>(m_context, m_soundVolume, m_musicVolume), true);
         // m_context->m_states->popCurrent();
     }else if(m_isExitButtonPressed){
        m_context->m_window->close();

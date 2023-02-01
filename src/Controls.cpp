@@ -127,9 +127,6 @@ void Control::Init(){
     m_space.setPosition(600, m_zero.getPosition().y + 20 + m_downArrow.getGlobalBounds().height);
     m_space.setScale(4.0,4.0);
 
-    //sound
-    // m_scroll.setBuffer(m_context->m_assest->getSound(SCROLL));
-
     //clock
     m_context->m_clock->restart();
     
@@ -139,50 +136,40 @@ void Control::Init(){
     m_upArrowInstuctions.setPosition({m_downArrow.getPosition().x + m_downArrow.getGlobalBounds().width + 40, m_upArrow.getPosition().y});
     m_upArrowInstuctions.setFillColor(sf::Color::Black);
 
-
     m_leftArrowInstructions.setString("press to move player character left and right");
     m_leftArrowInstructions.setCharacterSize(40);
     m_leftArrowInstructions.setPosition({m_rightArrow.getPosition().x + m_rightArrow.getGlobalBounds().width + 40, m_rightArrow.getPosition().y});
     m_leftArrowInstructions.setFillColor(sf::Color::Black);
-
 
     m_oneInstructions.setString("press to decrease music volume");
     m_oneInstructions.setCharacterSize(40);
     m_oneInstructions.setPosition({m_one.getPosition().x + m_one.getGlobalBounds().width + 40, m_one.getPosition().y});
     m_oneInstructions.setFillColor(sf::Color::Black);
 
-
     m_twoInstructions.setString("press to increse music volume");
     m_twoInstructions.setCharacterSize(40);
     m_twoInstructions.setPosition({m_two.getPosition().x + m_two.getGlobalBounds().width + 40, m_two.getPosition().y});
     m_twoInstructions.setFillColor(sf::Color::Black);
-
 
     m_nineInstructions.setString("press to decrease sfx volume");
     m_nineInstructions.setCharacterSize(40);
     m_nineInstructions.setPosition({m_nine.getPosition().x + m_nine.getGlobalBounds().width + 40, m_nine.getPosition().y});
     m_nineInstructions.setFillColor(sf::Color::Black);
 
-
     m_zeroInstructions.setString("press to increase sfx volume");
     m_zeroInstructions.setCharacterSize(40);
     m_zeroInstructions.setPosition({m_zero.getPosition().x + m_zero.getGlobalBounds().width + 40, m_zero.getPosition().y});
     m_zeroInstructions.setFillColor(sf::Color::Black);
-
 
     m_pInstructions.setString("press to pause game");
     m_pInstructions.setCharacterSize(40);
     m_pInstructions.setPosition({m_keyp.getPosition().x + m_keyp.getGlobalBounds().width + 40, m_keyp.getPosition().y});
     m_pInstructions.setFillColor(sf::Color::Black);
 
-
     m_spaceInstructions.setString("press to launch ball of destruction");
     m_spaceInstructions.setCharacterSize(40);
     m_spaceInstructions.setPosition({m_space.getPosition().x + m_space.getGlobalBounds().width + 40, m_space.getPosition().y});
     m_spaceInstructions.setFillColor(sf::Color::Black);
-
-
-    // m_context->m_music->openFromFile(m_context->m_assest->getMusic(AssetID::CONTROLMUSIC));
 }
 void Control::ProcessInput(){
     sf::Event ev;
@@ -323,12 +310,11 @@ void Control::Update(sf::Time deltatime){
         m_menuButton.setFillColor(sf::Color(62, 118, 185));
         m_exitButton.setFillColor(sf::Color::Black);
     }else if(m_isExitButtonSelected){
-        m_exitButton.setFillColor(sf::Color::Black);
-        m_menuButton.setFillColor(sf::Color(62, 118, 185));
+        m_exitButton.setFillColor(sf::Color(62, 118, 185));
+        m_menuButton.setFillColor(sf::Color::Black);
     }
 
     if(m_isMenuButtonPressed){
-        // m_context->m_states->add(std::make_unique<MainMenu>(m_context), true);
         m_context->m_states->popCurrent();
     }else if(m_isExitButtonPressed){
        m_context->m_window->close();
