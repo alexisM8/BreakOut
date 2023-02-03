@@ -26,6 +26,7 @@ void Textbox::addChar(char ch){
         if(m_text.length() >= 1){
             m_text.pop_back();
             this->setString(m_text);
+            m_strUsername = m_text;
         }
 
     }else if(ch == '\n'){
@@ -34,6 +35,7 @@ void Textbox::addChar(char ch){
         if(m_text.length() < m_limit){
             m_text.push_back(ch);
             this->setString(m_text);
+            m_strUsername = m_text;
         }
     } 
 }
@@ -76,4 +78,8 @@ void Textbox::draw(){
 
 void Textbox::setFont(const sf::Font& font){
     m_username.setFont(m_context->m_assest->getFont(AssetID::MAIN_FONT));
+}
+
+std::string &Textbox::getString(){
+    return m_strUsername;
 }

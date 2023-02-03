@@ -13,6 +13,7 @@ class Textbox{
         sf::Text m_username;
         sf::RectangleShape m_box;
         std::string m_text;
+        std::string m_strUsername{};
         int m_limit;
 
     public:
@@ -28,6 +29,7 @@ class Textbox{
         const sf::Vector2f& getSize();
     
         void setString(const std::string& text);
+        std::string &getString();
         void setCharacterSize(unsigned int size);
 
         void setColor(const sf::Color& background, const sf::Color& foreground);

@@ -169,12 +169,11 @@ void PauseGame::Update(sf::Time deltatime){
         m_resumeButton.setFillColor(sf::Color::Black);
     }
     if(m_isResumeButtonPressed){
-        m_context->m_sound->play();
         m_context->m_sound->setBuffer(m_context->m_assest->getSound(AssetID::SOUNDC));
         m_context->m_states->popCurrent();
     }else if(m_isRestartButtonPressed){
         m_context->m_states->popCurrent();
-        m_context->m_states->add(std::make_unique<MainMenu>(m_context), true);
+        m_context->m_states->add(std::make_unique<MainMenu>(m_context, m_soundVolume, m_musicVolume), true);
     }else if(m_isExitButtonPressed){
        m_context->m_window->close();
     }

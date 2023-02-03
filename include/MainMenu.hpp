@@ -11,6 +11,7 @@ class MainMenu : public Engine::State{
         sf::Text m_playButton;
         sf::Text m_exitButton;
         sf::Text m_controlButton;
+        sf::Text m_leaderboardButton;
 
         bool m_isPlayButtonSelected;
         bool m_isPlayButtonPressed;
@@ -20,6 +21,9 @@ class MainMenu : public Engine::State{
 
         bool m_isControlButtonSelected;
         bool m_isControlButtonPressed;
+
+        bool m_isLeaderboardButtonSelected;
+        bool m_isLeaderboardButtonPressed;
 
         bool m_isPaused;
 

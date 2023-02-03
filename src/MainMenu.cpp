@@ -2,6 +2,7 @@
 #include "../include/MainMenu.hpp"
 #include "../include/Controls.hpp"
 #include "../include/GameLogic.hpp"
+#include "../include/LeaderBoard.hpp"
 #include <iostream>
 #include <memory>
 
@@ -14,6 +15,8 @@ MainMenu::MainMenu(std::shared_ptr<Engine::Context> &context):
                             m_isPlayButtonPressed(false),
                             m_isControlButtonSelected(false),
                             m_isControlButtonPressed(false),
+                            m_isLeaderboardButtonSelected(false),
+                            m_isLeaderboardButtonPressed(false),
                             m_isExitButtonSelected(false),
                             m_isExitButtonPressed(false){/*empty*/}
 MainMenu::MainMenu(std::shared_ptr<Engine::Context> &context, float soundVolume, float musicVolume): 
@@ -25,6 +28,8 @@ MainMenu::MainMenu(std::shared_ptr<Engine::Context> &context, float soundVolume,
                             m_isPlayButtonPressed(false),
                             m_isControlButtonSelected(false),
                             m_isControlButtonPressed(false),
+                            m_isLeaderboardButtonSelected(false),
+                            m_isLeaderboardButtonPressed(false),
                             m_isExitButtonSelected(false),
                             m_isExitButtonPressed(false){/*empty*/}
 MainMenu::~MainMenu(){/*empty*/}
@@ -34,6 +39,7 @@ void MainMenu::Init(){
     m_gameTitle.setFont(m_context->m_assest->getFont(MAIN_FONT));
     m_playButton.setFont(m_context->m_assest->getFont(MAIN_FONT));
     m_controlButton.setFont(m_context->m_assest->getFont(MAIN_FONT));
+    m_leaderboardButton.setFont(m_context->m_assest->getFont(MAIN_FONT));
     m_exitButton.setFont(m_context->m_assest->getFont(MAIN_FONT));
     //name
     m_gameTitle.setString("Break Out!");
@@ -43,20 +49,30 @@ void MainMenu::Init(){
     //play button
     m_playButton.setString("Play");
     m_playButton.setCharacterSize(50);
-    m_playButton.setPosition(sf::Vector2f((m_context->m_window->getSize().x / 2.0) - m_playButton.getGlobalBounds().width / 2.0, m_context->m_window->getSize().y / 2.0 - m_playButton.getGlobalBounds().height / 2.0 - 30.0));
+    m_playButton.setPosition(sf::Vector2f((m_context->m_window->getSize().x / 2.0) 
+                                          - m_playButton.getGlobalBounds().width /
+                                          2.0, m_context->m_window->getSize().y /
+                                          2.0 - m_playButton.getGlobalBounds().height
+                                          / 2.0 - 30.0));
     m_playButton.setFillColor(sf::Color::Black);
-
-    //exit button
-    m_exitButton.setString("Exit");
-    m_exitButton.setCharacterSize(50);
-    m_exitButton. setPosition(sf::Vector2f((m_context->m_window->getSize().x / 2.0) - m_exitButton.getGlobalBounds().width / 2.0, m_context->m_window->getSize().y / 2.0 - m_exitButton.getGlobalBounds().height / 2.0 + 90.0));
-    m_exitButton.setFillColor(sf::Color::Black);
 
     //controls button
     m_controlButton.setString("Controls");
     m_controlButton.setCharacterSize(50);
-    m_controlButton.setPosition(sf::Vector2f((m_context->m_window->getSize().x / 2.0) - m_exitButton.getGlobalBounds().width / 2.0, m_context->m_window->getSize().y / 2.0 - m_exitButton.getGlobalBounds().height / 2.0 + 30.0));
+    m_controlButton.setPosition(sf::Vector2f((m_context->m_window->getSize().x / 2.0) - m_controlButton.getGlobalBounds().width / 2.0, m_playButton.getPosition().y + 60.0f));
     m_controlButton.setFillColor(sf::Color::Black);
+
+    //leaderboard
+    m_leaderboardButton.setString("Leaderboard");
+    m_leaderboardButton.setCharacterSize(50);
+    m_leaderboardButton.setPosition({(float)m_context->m_window->getSize().x / 2 - m_leaderboardButton.getGlobalBounds().width / 2, m_controlButton.getPosition().y + 60.0f});
+    m_leaderboardButton.setFillColor(sf::Color::Black);
+    //exit button
+    m_exitButton.setString("Exit");
+    m_exitButton.setCharacterSize(50);
+    m_exitButton. setPosition(sf::Vector2f((m_context->m_window->getSize().x / 2.0) - m_exitButton.getGlobalBounds().width / 2.0, m_leaderboardButton.getPosition().y + 60.0f));
+    m_exitButton.setFillColor(sf::Color::Black);
+
 
     //Background
     m_context->m_assest->AddTexture(MENUBACKGROUND, "../assets/textures/Clouds 2.png");
@@ -88,15 +104,21 @@ void MainMenu::ProcessInput(){
                 case sf::Keyboard::Up:{
                     if(m_isExitButtonSelected){
                         m_isPlayButtonSelected = false;
-                        m_isControlButtonSelected = true;
+                        m_isControlButtonSelected = false;
                         m_isExitButtonSelected = false;
-                        m_context->m_sound->play();
+                        m_isLeaderboardButtonSelected = true;
                     }else if(m_isControlButtonSelected){
                         m_isPlayButtonSelected = true;
                         m_isControlButtonSelected = false;
                         m_isExitButtonSelected = false;
-                        m_context->m_sound->play();
+                        m_isLeaderboardButtonSelected = false;
+                    }else if(m_isLeaderboardButtonSelected){
+                        m_isControlButtonSelected = true;
+                        m_isLeaderboardButtonSelected = false;
+                        m_isExitButtonSelected = false;
+                        m_isPlayButtonSelected = false;
                     }
+                    m_context->m_sound->play();
                     break;
                 }
                 case sf::Keyboard::Down:{
@@ -104,13 +126,19 @@ void MainMenu::ProcessInput(){
                         m_isPlayButtonSelected = false;
                         m_isControlButtonSelected = true;
                         m_isExitButtonSelected = false;
-                        m_context->m_sound->play();
+                        m_isLeaderboardButtonSelected = true;
                     }else if(m_isControlButtonSelected){
                         m_isPlayButtonSelected = false;
                         m_isControlButtonSelected = false;
+                        m_isExitButtonSelected = false;
+                        m_isLeaderboardButtonSelected = true;
+                    }else if(m_isLeaderboardButtonSelected){
                         m_isExitButtonSelected = true;
-                        m_context->m_sound->play();
+                        m_isLeaderboardButtonSelected = false;
+                        m_isPlayButtonSelected = false;
+                        m_isControlButtonSelected = false;
                     }
+                    m_context->m_sound->play();
                     break;
                 }
                 case sf::Keyboard::Escape:{
@@ -121,6 +149,7 @@ void MainMenu::ProcessInput(){
                     m_isExitButtonPressed = false;
                     m_isPlayButtonPressed = false;
                     m_isControlButtonPressed = false;
+                    m_isLeaderboardButtonPressed = false; 
                     m_context->m_sound->play();
                     
                     if(m_isPlayButtonSelected){
@@ -129,6 +158,8 @@ void MainMenu::ProcessInput(){
                         m_isControlButtonPressed = true;
                     }else if(m_isExitButtonSelected){
                         m_isExitButtonPressed = true;
+                    }else if(m_isLeaderboardButtonSelected){
+                        m_isLeaderboardButtonPressed = true;
                     }
                     break;
                 }
@@ -169,14 +200,22 @@ void MainMenu::Update(sf::Time deltatime){
             m_playButton.setFillColor(sf::Color(62, 118, 185));
             m_exitButton.setFillColor(sf::Color::Black);
             m_controlButton.setFillColor(sf::Color::Black);
+            m_leaderboardButton.setFillColor(sf::Color::Black);
         }else if(m_isExitButtonSelected){
             m_exitButton.setFillColor(sf::Color(62, 118, 185));
             m_playButton.setFillColor(sf::Color::Black);
             m_controlButton.setFillColor(sf::Color::Black);
+            m_leaderboardButton.setFillColor(sf::Color::Black);
         }else if(m_isControlButtonSelected){
             m_playButton.setFillColor(sf::Color::Black);
             m_controlButton.setFillColor(sf::Color(62, 118, 185));
             m_exitButton.setFillColor(sf::Color::Black);
+            m_leaderboardButton.setFillColor(sf::Color::Black);
+        }else if(m_isLeaderboardButtonSelected){
+            m_leaderboardButton.setFillColor(sf::Color(62, 118, 185));
+            m_exitButton.setFillColor(sf::Color::Black);
+            m_playButton.setFillColor(sf::Color::Black);
+            m_controlButton.setFillColor(sf::Color::Black);
         }
 
         if(m_isPlayButtonPressed){
@@ -187,6 +226,9 @@ void MainMenu::Update(sf::Time deltatime){
         }else if(m_isControlButtonPressed){
             m_isControlButtonPressed = false;
             m_context->m_states->add(std::make_unique<Control>(m_context, m_soundVolume, m_musicVolume), false);
+        }else if(m_isLeaderboardButtonPressed){
+            m_isLeaderboardButtonPressed = false;
+            m_context->m_states->add(std::make_unique<LeaderBoard>(m_context, m_soundVolume, m_musicVolume), false);
         }
     }
 
@@ -197,6 +239,7 @@ void MainMenu::Draw(){
     m_context->m_window->draw(m_gameTitle);
     m_context->m_window->draw(m_playButton);
     m_context->m_window->draw(m_controlButton);
+    m_context->m_window->draw(m_leaderboardButton);
     m_context->m_window->draw(m_exitButton);
     m_context->m_window->display();
     

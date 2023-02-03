@@ -3,6 +3,7 @@
 #include "../include/MainMenu.hpp"
 #include <string>
 #include <iostream>
+#include <fstream>
 
 SaveScore::SaveScore(std::shared_ptr<Engine::Context> &context, 
                      int score, float soundVolume, float musicVolume)
@@ -145,6 +146,10 @@ void SaveScore::Update(sf::Time deltatime){
     }
 
     if(m_isMainMenuButtonPressed){
+        std::ofstream towrite("../assets/scores/scores.txt", std::ios::app);
+        towrite << m_textbox.getString() << ' ' << std::to_string(m_score) << '\n';
+        towrite.close();
+
         m_context->m_states->add(std::make_unique<MainMenu>(m_context, m_soundVolume, m_musicVolume), true);
         // m_context->m_states->popCurrent();
     }else if(m_isExitButtonPressed){
