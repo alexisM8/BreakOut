@@ -78,6 +78,8 @@ void GameLogic::Init(){
     m_scoreTxt.setFont(m_context->m_assest->getFont(MAIN_FONT));
     m_scoreTxt.setPosition({0.0f, 0.0f});
     m_scoreTxt.setString("Score : " + std::to_string(m_score) + "\t\tLives: " + std::to_string(m_lives));
+    m_scoreTxt.setFillColor(sf::Color::Black);
+
     //sound
     m_context->m_sound->setBuffer(m_context->m_assest->getSound(SOUNDC));
     m_context->m_music->openFromFile(m_context->m_assest->getMusic(GAMEMUSIC));
