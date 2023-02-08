@@ -52,7 +52,7 @@ void LeaderBoard::Init(){
     m_verticalLine.setPosition({(float)m_context->m_window->getSize().x / 2 - m_verticalLine.getSize().x / 2, m_horizontalLine.getPosition().y - 50.0f});
     m_verticalLine.setFillColor(sf::Color::Black);
 
-    m_context->m_assest->AddTexture(LEADERBACKGROUND, "../assets/textures/Clouds 8.png");
+    m_context->m_assest->AddTexture(LEADERBACKGROUND, "../assets/textures/Clouds 5.png");
     m_background.setTexture(m_context->m_assest->getTexture(AssetID::LEADERBACKGROUND));
     m_background.setScale(3.35f, 3.35f);
 
