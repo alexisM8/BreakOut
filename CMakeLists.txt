@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.21.1)
 
 IF(APPLE)
   SET(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
-  # SET(CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE STRING "Build architectures for Mac OS X" FORCE)
 ENDIF(APPLE)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -58,12 +57,9 @@ add_library(mylib
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Controls.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Textbox.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/SaveScore.cpp
-)
-
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/LeaderBoard.cpp
+    )
 
 target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES} ${SFML_DEPENDENCIES})
-
-# set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 11)
-# set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD_REQUIRED ON)
 
 target_link_libraries(${PROJECT_NAME} mylib)
