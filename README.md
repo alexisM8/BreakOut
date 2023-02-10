@@ -22,7 +22,7 @@ BreakOut is a classic arcade game developed by Atari, Inc. This implementation o
 
 ### Dependecies
 
-* CMake version >= 3.14.4
+* CMake version >= 3.21.1
 * clangd version >= 9.00
 * SFML
 
@@ -51,6 +51,9 @@ BreakOut is a classic arcade game developed by Atari, Inc. This implementation o
 ### Installing
 
 * Clone the repository in a desired location
+```
+git clone https://github.com/alexisM8/BreakOut.git
+```
 
 ### Executing Program
 
