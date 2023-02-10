@@ -1,6 +1,18 @@
-# BreakOut
+<h1 align="center">
+    BreakOut!
+  <br>
+</h1>
 
+<h4 align="center"> 
 A classic game remade in c++ using SFML
+</h4>
+<p align="center">
+  <a href="#features">Features</a> •
+  <a href="#how-to-play">How To Play</a> •
+  <a href="#installing">Installing and Executing</a> •
+  <a href="#images">Images</a> •
+  <a href="#license">License</a>
+</p>
 
 ## Description
 
@@ -70,3 +82,6 @@ make
 ![Game Over](https://github.com/alexisM8/BreakOut/blob/main/images/gameover.png)
 ![Save Score](https://github.com/alexisM8/BreakOut/blob/main/images/savescore.png)
 ![Leader Board](https://github.com/alexisM8/BreakOut/blob/main/images/leaderboard.png)
+
+## Licence
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/alexisM8/BreakOut/blob/main/LICENSE) file for details
