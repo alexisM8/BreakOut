@@ -86,5 +86,5 @@ make
 ![Save Score](https://github.com/alexisM8/BreakOut/blob/main/images/savescore.png)
 ![Leader Board](https://github.com/alexisM8/BreakOut/blob/main/images/leaderboard.png)
 
-## Licence
+## License
 This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/alexisM8/BreakOut/blob/main/LICENSE) file for details
