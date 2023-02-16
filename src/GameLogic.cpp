@@ -143,7 +143,7 @@ void GameLogic::ProcessInput(){
                     break;
                 }
                 case sf::Keyboard::P:
-                    m_context->m_states->add(std::make_unique<PauseGame>(m_context), false);
+                    m_context->m_states->add(std::make_unique<PauseGame>(m_context, m_soundVolume, m_musicVolume), false);
                     break;
                 default: break;
             }

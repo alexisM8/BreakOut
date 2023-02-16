@@ -4,6 +4,7 @@
 #include "../include/GameLogic.hpp"
 #include <iostream>
 #include <memory>
+#include <ostream>
 
 PauseGame::PauseGame(std::shared_ptr<Engine::Context> &context): 
     m_context(context), m_isResumeButtonSelected(true),

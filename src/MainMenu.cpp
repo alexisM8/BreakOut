@@ -231,7 +231,6 @@ void MainMenu::Update(sf::Time deltatime){
             m_context->m_states->add(std::make_unique<LeaderBoard>(m_context, m_soundVolume, m_musicVolume), false);
         }
     }
-
 }
 void MainMenu::Draw(){
     m_context->m_window->clear();
